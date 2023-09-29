@@ -2,7 +2,7 @@
 
 Obligatoriske oppgaver gjennom min bachelor i Informatikk: Design, bruk og interaksjon.
 
-Oppgaver fra 
+Oppgaver fra:
 
 IN1000: Introduksjon til objektorientert programmering (python)
 
