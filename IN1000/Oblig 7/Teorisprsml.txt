@@ -1,0 +1,27 @@
+b) Klassen Spilleliste kunne hatt filnavn som parameter til konstruktøren, og lest inn
+spillelisten ved opprettelsen av et nytt Spilleliste-objekt. Ser du noen fordel ved ikke å
+gjøre det i konstruktøren?
+- Fordeler vet å ikke ha filnavn i konstruktøren er at det vil være mulig å lese inn flere filer med denne metoden.
+- Altså kan man legge til spillelister fra ulike filer og ikke bare bruke en bestemt fil
+
+
+c) I klassen Spilleliste er det en instansvariabel som lagrer alle sangene i en liste. Nevn
+minst en, gjerne to årsaker til at det er naturlig å velge en liste fremfor en ordbok her.
+Årsak 1:
+- I en ordbok kan man ikke ha duplikater, mens i liste så kan man det.
+- Altså i ordbok kan man ikke ha flere av samme nøkkelverdi.
+- Det er dumt om artist er nøkkelverdi og artisten har flere sanger, eller om tittel er nøkkelverdi og flere artister har samme tittel på en sang.
+Årsak 2:
+- Det er fint å ha en liste som har indekser, mens i ordbok så er det ikke en liste etter hverandre.
+- Elementene blir plassert i en rekkefølge i listen, dette skjer ikke i ordbok. Det er fint å ha en rekkefølge siden det er en "spilleliste"
+
+d) Hva må endres i Spilleliste-klassen om rekkefølgen på tittel og artist byttes om i
+datafilen musikk.txt ?
+
+Orginal:
+  sang1 = Sang(bit[1], bit[0])
+Endret:
+  sang1 = Sang(bit[0], bit[1])
+
+Altså må man bare endre på om bit[1] er bak eller foran, for orginalt er bit[1] tittel og bit[0] artist.
+Man må endre på indeksen.

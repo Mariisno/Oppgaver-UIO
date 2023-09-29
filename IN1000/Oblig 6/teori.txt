@@ -1,0 +1,13 @@
+1. Hva er innkapsling? Hvorfor er det nyttig?
+- Innkapsling er når du bare kan nå noe med bruk av en metoden
+- Det er nytting så variabler ikke kommer frem når du ikke vil ha den.
+- Da blir programmet mer ryddig
+
+2. Hva er grensesnittet til en klasse?
+- Grensesnittet til en klasse kommer an på klassen og er bestemt på tjenestene i klassen.
+Hvordan skiller det seg fra implementasjonen av en klasse?
+- implementasjonen er det som er inni en klasse, altså det som den som lager klassen har skrevet, men bruker trenger ikke å se det
+
+3. Hva er en instansmetode (ofte kalt bare metode), og hvordan skiller metoder seg fra
+prosedyrene/funksjonene vi har jobbet med hittil?
+- En instansmetode er forskjellig fra en prosedyre/funksjon siden det kaller på selvet klassen hver gang
