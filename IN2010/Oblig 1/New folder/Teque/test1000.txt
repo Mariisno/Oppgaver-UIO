@@ -1,8 +1,0 @@
-7
-push_middle 3
-get 0
-push_middle 7
-get 1
-get 0
-push_back 9
-get 2
