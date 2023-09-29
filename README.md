@@ -6,6 +6,6 @@ Oppgaver fra:
 
 IN1000: Introduksjon til objektorientert programmering (python)
 
-IN1010: Objektorientert programmering (java) (KOMMER)
+IN1010: Objektorientert programmering (java)
 
 IN2010: Algoritmer og datastrukturer (Python) (tar faget nå)
