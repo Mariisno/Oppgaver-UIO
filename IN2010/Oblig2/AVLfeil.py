@@ -34,7 +34,10 @@ class AVL:
             node.left = self._insert(node.left, x)
         elif x > node.element:
             node.right = self._insert(node.right, x)
-        return node
+        #Kode for at det blir AVL tre:
+        self.SetHeight(node)
+        return self.Balance(node) #Retunerer balansert node og ikke bare node
+        #return node
 
     def FindMin(self):
         while self.root is not None:
@@ -55,7 +58,10 @@ class AVL:
         u = self.FindMin(self.root.right)
         self.root.element = u.element
         self.root.right = self.remove(u.element)
-        return self.root
+
+        #AVL-greier:
+        self.SetHeight(self.root)
+        return self.Balance(self.root) #Må balansere den først
 
     def size(self):  # Gir antall elementer i mengden
         return self.s
@@ -74,12 +80,56 @@ class AVL:
         if node is None:
             return
         else:
-            node.height = 1+Max(Height(node.left), Height(node.right))
+            node.height = 1+max(self.Height(node.left), self.Height(node.right))
+    
+    #Roteringer:
+    def LeftRotate(self, node):
+        nyRot = node.right
+        blad = nyRot.left
+        
+        nyRot.left = node
+        node.right = blad
 
-    # Input:
+        self.SetHeight(node)
+        self.SetHeight(nyRot)
+
+    def RightRotate(self, node):
+        nyRot = node.left
+        blad = nyRot.right
+
+        nyRot.right = node
+        node.left = blad
+
+        self.SetHeight(node)
+        self.SetHeight(nyRot)
+    
+    #Balansefaktor, må ha det for å sjekke hvor venstre- eller høyretungt v er
+    #0 betyr at v er balansert
+    #Positiv tall betyr at treet er venstretungt
+    #Et negativt tall betyr at treet er høyretungt
+    #v er en node
+    def BalanceFactor(self, node):
+        if node is None:
+            return 0 #DEN ER BALANSERT
+        return self.Height(node.left) - self.Height(node.right)
+    
+    #Balansering:
+    def Balance(self, node):
+        if self.BalanceFactor(node) < -1:
+            if self.BalanceFactor(node) > 0:
+                node.right = self.RightRotate(node.right)
+            return self.LeftRotate(node)
+        if self.BalanceFactor(node) < 1:
+            if self.BalanceFactor(node.left) < 0:
+                node.left = self.LeftRotate(node.left)
+            return self.RightRotate(node)
+        return node
+        
 
 
-set_bst = BST()
+# Input:
+
+set_bst = AVL()
 n = int(input())
 for _ in range(n):
     operation = input().split()
