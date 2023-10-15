@@ -36,16 +36,23 @@ lines = f""
 #Gå gjennom alle skuespillerne og sjekk om de spiller i samme film, 
 #hvis de gjør det så kobles de sammen
 
-def sammeFil(skuespillerA, skuespillerB):
+def sammeFil(movies, skuespillerA, skuespillerB):
     kanter = []
     for ttB in skuespillerA.hentTT:
         for ttA in skuespillerB.hentTT:
             if ttB == ttA:
-                
+                kanter.append(skuespillerA)
+                kanter.append(skuespillerB)
+                #Legge til vekten
                 #Da lages en kant
+                for movie in movies:
+                    if movie.ttID == ttA:
+                        kanter.append(movie.Rating)
+    return kanter
 
+def lines(kanter):
+    for i in range(len(kanter)):
 
-            
 
 #Skuespiller:
 A = 
