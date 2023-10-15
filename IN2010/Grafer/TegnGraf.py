@@ -5,7 +5,7 @@ import os
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 
-lines = "A B 13\nA C 6\nB C 7\nB D 1\nC D 14\nC E 8\nC H 20\nD E 9\nD F 3\nE F 2\nE J 18\nG H 15\nG I 5\nG J 19\nG K 10\nH J 17\nI K 11\nJ K 16\nJ L 4\nK L 12"
+# lines = "A B 13\nA C 6\nB C 7\nB D 1\nC D 14\nC E 8\nC H 20\nD E 9\nD F 3\nE F 2\nE J 18\nG H 15\nG I 5\nG J 19\nG K 10\nH J 17\nI K 11\nJ K 16\nJ L 4\nK L 12"
 
 
 def buildgraph(lines):
@@ -45,5 +45,5 @@ def drawgraph(G):
     dot.render('graph', view=True)
 
 
-G = buildgraph(lines)
-drawgraph(G)
+# G = buildgraph(lines)
+# drawgraph(G)

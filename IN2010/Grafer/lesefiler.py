@@ -27,13 +27,12 @@ lesFil('marvel_movies.tsv')
 
 print(Movies)
 
-#Funker til hit!
+# Funker til hit!
 
-#AB er en kant og er to skuespillere som spiller i samme film
+# AB er en kant og er to skuespillere som spiller i samme film
 
-#Gå gjennom alle skuespillerne og sjekk om de spiller i samme film, 
-#hvis de gjør det så kobles de sammen
-
+# Gå gjennom alle skuespillerne og sjekk om de spiller i samme film,
+# hvis de gjør det så kobles de sammen
 
 
 def sammeFil(movies, actors):
@@ -42,17 +41,21 @@ def sammeFil(movies, actors):
         for ttB in actors[i].hentTT:
             for ttA in actors[i+1].hentTT:
                 if ttB == ttA:
-                    kanter.append(actors[i])
-                    kanter.append(actors[i+1])
-                    #Legge til vekten
-                    #Da lages en kant
+                    kanter.append(actors[i].navn)
+                    kanter.append(actors[i+1].navn)
+                    # Legge til vekten
+                    # Da lages en kant
                     for movie in movies:
                         if movie.ttID == ttA:
                             kanter.append(movie.Rating)
     return kanter
 
+
 def lines(kanter):
     for i in range(len(kanter)):
         lines += kanter[i] + " " + kanter[i+1] + " " + kanter[i+2] + "\n"
 
-TegnGraf.buildgraph(lines(sammeFil(Movies, Actors)))
+
+G = TegnGraf.buildgraph(lines(sammeFil(Movies, Actors)))
+
+TegnGraf.drawgraph(G)
