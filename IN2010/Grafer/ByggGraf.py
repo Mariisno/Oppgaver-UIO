@@ -20,4 +20,6 @@ def buildgraph(lines):
     return V, E, W
 
 
-G = buildgraph(open("Graf.txt"))
+lines = "A B 13\nA C 6\nB C 7\nB D 1\nC D 14\nC E 8\nC H 20\nD E 9\nD F 3\nE F 2\nE J 18\nG H 15\nG I 5\nG J 19\nG K 10\nH J 17\nI K 11\nJ K 16\nJ L 4\nK L 12"
+G = buildgraph(lines)
+print(G)
