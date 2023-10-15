@@ -7,9 +7,6 @@ class Actor:
         self.Navn = Navn
         self.ttId = ttId  # liste
 
-    def hentTT(self):
-        return self.ttId
-
     def __str__(self):
         return self.Navn
 

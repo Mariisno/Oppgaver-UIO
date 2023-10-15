@@ -1,10 +1,10 @@
 import AcMo
-import TegnGraf
+import ByggGraf
 
 # En skuespiller kan ha en tt-id som ikke forekommer i movies.tsv -> disse skal ignoreres
 
-Actors = {}
-Movies = {}
+Actors = []
+Movies = []
 
 
 def lesFil(fil):
@@ -15,17 +15,15 @@ def lesFil(fil):
             # Hvis det er actor
             if deler[0][0] == "n":
                 nyActor = AcMo.Actor(str(deler[0]), str(deler[1]), (deler[2:]))
-                Actors[deler[0]] = nyActor
+                Actors.append(nyActor)
             else:
                 nyMovie = AcMo.Movies(
                     str(deler[0]), str(deler[1]), float(deler[2]))
-                Movies[deler[0]] = nyMovie
+                Movies.append(nyMovie)
 
 
 lesFil('marvel_actors.tsv')
 lesFil('marvel_movies.tsv')
-
-print(Movies)
 
 # Funker til hit!
 
@@ -37,17 +35,24 @@ print(Movies)
 
 def sammeFil(movies, actors):
     kanter = []
+
     for i in range(len(actors)):
-        for ttB in actors[i].hentTT:
-            for ttA in actors[i+1].hentTT:
-                if ttB == ttA:
-                    kanter.append(actors[i].navn)
-                    kanter.append(actors[i+1].navn)
-                    # Legge til vekten
-                    # Da lages en kant
-                    for movie in movies:
-                        if movie.ttID == ttA:
-                            kanter.append(movie.Rating)
+        teller = 0
+        #Må sammenligne den første osv. med alle de andre
+        while teller < len(actors):
+            #Må sjekke om hentTT er liste ller ikke
+            if type(actors[i].ttId) == list:
+                #Sjekke om de spiller i samme film
+                for tt in actors[i].ttId:
+                    if tt in actors[teller].ttId and teller != i:
+                        kanter.append(actors[i].Navn)
+                        kanter.append(actors[teller].Navn)
+                        #Legge til vekten
+                        #Da lages en kant
+                        for movie in movies:
+                            if movie.ttID == tt:
+                                kanter.append(movie.Rating)
+            teller += 1
     return kanter
 
 
@@ -55,7 +60,8 @@ def lines(kanter):
     for i in range(len(kanter)):
         lines += kanter[i] + " " + kanter[i+1] + " " + kanter[i+2] + "\n"
 
+print(sammeFil(Movies, Actors))
 
-G = TegnGraf.buildgraph(lines(sammeFil(Movies, Actors)))
+# G = ByggGraf.buildgraph(lines(sammeFil(Movies, Actors)))
 
-TegnGraf.drawgraph(G)
+# TegnGraf.drawgraph(G)
