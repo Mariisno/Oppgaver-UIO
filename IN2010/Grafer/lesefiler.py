@@ -17,7 +17,7 @@ def lesFil(fil):
                 Actors.append(nyActor)
             else:
                 nyMovie = AcMo.Movies(
-                    str(deler[0]), str(deler[1]), float(deler[2]))
+                    str(deler[0]), str(deler[1]), str(deler[2]))
                 Movies.append(nyMovie)
 
 
@@ -37,47 +37,50 @@ def sammeFil(movies, actors):
 
     for i in range(len(actors)):
         teller = 0
-        #Må sammenligne den første osv. med alle de andre
+        # Må sammenligne den første osv. med alle de andre
         while teller < len(actors):
-            #Må sjekke om hentTT er liste ller ikke
-                #Sjekke om de spiller i samme film
-                for tt in actors[i].ttId:
-                    kant = []
-                    #Hvis den ikke er tom:
-                    if tt in actors[teller].ttId and teller != i:
-                        kant.append(actors[i].Navn)
-                        kant.append(actors[teller].Navn)
-                        #Legge til vekten
-                        #Da lages en kant
-                        if kanter:
-                            duplikat = False
-                            sjekka = False
-                            for k in kanter:
-                                for movie in movies:
-                                    if movie.ttID == tt and not sjekka:
-                                        kant.append(movie.Rating)
-                                        sjekka = True
-                                if len(kant) == 3:
-                                    if kant[0] in k and kant[1] in k and kant[2] in k:
-                                        duplikat = True
-                                        break
-                            if not duplikat and len(kant) == 3:
-                                kanter.append(kant)                
-                        if len(kanter) < 1:
+            # Må sjekke om hentTT er liste ller ikke
+            # Sjekke om de spiller i samme film
+            for tt in actors[i].ttId:
+                kant = []
+                # Hvis den ikke er tom:
+                if tt in actors[teller].ttId and teller != i:
+                    kant.append(actors[i].Navn)
+                    kant.append(actors[teller].Navn)
+                    # Legge til vekten
+                    # Da lages en kant
+                    if kanter:
+                        duplikat = False
+                        sjekka = False
+                        for k in kanter:
                             for movie in movies:
-                                if movie.ttID == tt:
+                                if movie.ttID == tt and not sjekka:
                                     kant.append(movie.Rating)
-                                    kanter.append(kant)
+                                    sjekka = True
+                            if len(kant) == 3:
+                                if kant[0] in k and kant[1] in k and kant[2] in k:
+                                    duplikat = True
                                     break
-                teller += 1
+                        if not duplikat and len(kant) == 3:
+                            kanter.append(kant)
+                    if len(kanter) < 1:
+                        for movie in movies:
+                            if movie.ttID == tt:
+                                kant.append(movie.Rating)
+                                kanter.append(kant)
+                                break
+            teller += 1
     return kanter
 
 
 def lines(kanter):
+    lines = ""
     for i in range(len(kanter)):
-        lines += kanter[i] + " " + kanter[i+1] + " " + kanter[i+2] + "\n"
+        lines += kanter[i] + " " + kanter[i+1] + " " + kanter[i+2:] + "\n"
+    return lines
 
-print(sammeFil(Movies, Actors))
+
+print(lines(sammeFil(Movies, Actors)))
 
 # G = ByggGraf.buildgraph(lines(sammeFil(Movies, Actors)))
 
