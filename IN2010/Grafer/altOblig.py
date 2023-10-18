@@ -1,22 +1,13 @@
 import AcMo
 from collections import defaultdict
 
-
-# lines = "A B 13\nA C 6\nB C 7\nB D 1\nC D 14\nC E 8\nC H 20\nD E 9\nD F 3\nE F 2\nE J 18\nG H 15\nG I 5\nG J 19\nG K 10\nH J 17\nI K 11\nJ K 16\nJ L 4\nK L 12"
-
-
 def buildgraph(info):
     V = set()
     E = defaultdict(set)
     w = dict()
 
-    for line in info:
-        print(line)
-        u = ""
-        print(line[0])
-        u = str(info[line][0])
-        v = info[line][1]
-        weight = info[line[2]]
+    for edge in info:
+        u, v, weight = edge[0], edge[1], edge[2] 
 
         V.add(u)
         V.add(v)
@@ -24,8 +15,8 @@ def buildgraph(info):
         E[u].add(v)
         E[v].add(u)
 
-        w[(u, v)] = int(weight)
-        w[(v, u)] = int(weight)
+        w[(u, v)] = float(weight)
+        w[(v, u)] = float(weight)
 
     return V, E, w
 
@@ -123,19 +114,6 @@ def sammeFil(movies, actors):
             teller += 1
     return kanter
 
-
-# def lines(kanter):
-#     lines = ""
-#     for i in range(len(kanter)):
-#         if i <= len(kanter)-2:
-#             print(i)
-#         lines += kanter[i][0] + " " + kanter[i][1] + " " + kanter[i][2] + "\n"
-#     return lines
-
 kanter = sammeFil(Movies, Actors)
 
 G = buildgraph(kanter)
-# TegnGrafOblig.drawgraph(G)
-# G = ByggGraf.buildgraph(lines(sammeFil(Movies, Actors)))
-
-# TegnGraf.drawgraph(G)
