@@ -22,8 +22,8 @@ def lesFil(fil):
                 Movies.append(nyMovie)
 
 
-lesFil('marvel_actors.tsv')
-lesFil('marvel_movies.tsv')
+lesFil('marvel_actors_liten.tsv')
+lesFil('marvel_movies_liten.tsv')
 
 # Funker til hit!
 
@@ -40,15 +40,17 @@ def sammeFil(movies, actors):
         teller = 0
         # Må sammenligne den første osv. med alle de andre
         while teller < len(actors):
-            # Må sjekke om hentTT er liste ller ikke
+            #Må sjekke om hentTT er liste ller ikke
             if type(actors[i].ttId) == list:
-                # Sjekke om de spiller i samme film
+                #Sjekke om de spiller i samme film
                 for tt in actors[i].ttId:
+                    kant = []
+                    #Hvis den ikke er tom:
                     if tt in actors[teller].ttId and teller != i:
                         kanter.append(actors[i].Navn)
                         kanter.append(actors[teller].Navn)
-                        # Legge til vekten
-                        # Da lages en kant
+                        #Legge til vekten
+                        #Da lages en kant
                         for movie in movies:
                             if movie.ttID == tt:
                                 kanter.append(movie.Rating)
