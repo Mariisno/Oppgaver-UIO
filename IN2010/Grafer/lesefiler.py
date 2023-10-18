@@ -76,7 +76,7 @@ def sammeFil(movies, actors):
 def lines(kanter):
     lines = ""
     for i in range(len(kanter)):
-        lines += kanter[i] + " " + kanter[i+1] + " " + kanter[i+2:] + "\n"
+        lines += kanter[i][0] + " " + kanter[i][1] + " " + kanter[i][2] + "\n"
     return lines
 
 
