@@ -1,3 +1,4 @@
+from heapq import heappush, heappop
 import graphviz
 from collections import defaultdict
 from collections import deque
@@ -47,7 +48,7 @@ def drawgraph(G):
 
 
 G = buildgraph(lines)
-drawgraph(G)
+# drawgraph(G)
 
 
 # G er graf, s er startnode, result er alle nodene
@@ -100,4 +101,120 @@ def bfs(G, s):
     return result
 
 
-print(bfs(G, "A"))
+bfs(G, "A")
+
+
+def bfs_shortest_paths_from(G, s):
+    _, E, _ = G
+    parents = {s: None}  # s har ingen forelder
+    queue = deque([s])
+    while queue:
+        u = queue.popleft()
+        for v in E[u]:  # Sjekker naboene til v
+            if v not in parents:  # Hvis v ikke har en forelder legges den til
+                parents[v] = u  # Da blir v forelderen til u
+                queue.append(v)
+    return parents
+
+
+def draw_parents(parents):
+    dot = graphviz.Graph()
+    for u in parents:
+        v = parents[u]
+        if v:
+            dot.edge(v, u)
+    dot.render('bfs_spanningtree', format='svg')
+
+
+draw_parents(bfs_shortest_paths_from(G, 'A'))
+
+
+def bfs_shortest_path_between(G, s, t):
+    parents = bfs_shortest_paths_from(G, s)
+    v = t
+    path = []
+
+    if t not in parents:
+        return path
+
+    while v:
+        path.append(v)
+        v = parents[v]
+
+    return path[::-1]
+
+
+bfs_shortest_path_between(G, 'A', 'G')
+
+
+def bfs_all_shortest_paths(G, s):
+    V, _, _ = G
+    parents = bfs_shortest_paths_from(G, s)
+    paths = []
+
+    for v in V:
+        path = []
+        while v:
+            path.append(v)
+            v = parents[v]
+        paths.append(path[::-1])
+    return paths
+
+
+sorted(bfs_all_shortest_paths(G, 'A'))
+
+
+def dijkstra(G, s):
+    V, E, w = G
+    queue = [(0, s)]
+    dist = defaultdict(lambda: float('inf'))
+    dist[s] = 0
+
+    while queue:
+        cost, u = heappop(queue)
+        if cost != dist[u]:
+            continue
+        for v in E[u]:
+            c = cost + w[(u, v)]
+            if c < dist[v]:
+                dist[v] = c
+                heappush(queue, (c, v))
+    return dist
+
+
+dist = dijkstra(G, 'A')
+print(list(zip(*sorted(dist.items()))))
+
+
+def shortest_paths_from(G, s):
+    V, E, w = G
+    queue = [(0, s)]
+    dist = defaultdict(lambda: float('inf'))
+    parents = {s: None}
+    dist[s] = 0
+
+    while queue:
+        cost, u = heappop(queue)
+        if cost != dist[u]:
+            continue
+        for v in E[u]:
+            c = cost + w[(u, v)]
+            if c < dist[v]:
+                dist[v] = c
+                heappush(queue, (c, v))
+                parents[v] = u
+
+    return parents
+
+
+def draw_parents_weighted(G, parents, name):
+    V, _, w = G
+    dot = graphviz.Graph()
+    for u in parents:
+        v = parents[u]
+        if v:
+            dot.edge(u, v, label=str(w[(u, v)]))
+    dot.render(name, format='svg')
+
+
+draw_parents_weighted(G, shortest_paths_from(G, 'A'), 'dijkstra_spanningtree')

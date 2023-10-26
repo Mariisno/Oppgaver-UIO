@@ -1,5 +1,10 @@
 import AcMo
+import graphviz
 from collections import defaultdict
+
+import os
+os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
+
 
 def buildgraph(info):
     V = set()
@@ -7,7 +12,7 @@ def buildgraph(info):
     w = dict()
 
     for edge in info:
-        u, v, weight = edge[0], edge[1], edge[2] 
+        u, v, weight = edge[0], edge[1], edge[2]
 
         V.add(u)
         V.add(v)
@@ -21,21 +26,21 @@ def buildgraph(info):
     return V, E, w
 
 
-# def drawgraph(G):
-#     V, E, w = G
-#     dot = graphviz.Graph()
-#     seen_edges = set()
+def drawgraph(G):
+    V, E, w = G
+    dot = graphviz.Graph()
+    seen_edges = set()
 
-#     for u in V:
-#         dot.node(u)
+    for u in V:
+        dot.node(u)
 
-#         for v in E[u]:
-#             if (v, u) in seen_edges:
-#                 continue
-#             seen_edges.add((u, v))
-#             dot.edge(u, v, label=str(w[(u, v)]))
+        for v in E[u]:
+            if (v, u) in seen_edges:
+                continue
+            seen_edges.add((u, v))
+            dot.edge(u, v, label=str(w[(u, v)]))
 
-#     dot.render('graph', view=True)
+    dot.render('graph', view=True)
 
 
 # G = buildgraph(lines)
@@ -47,24 +52,29 @@ def buildgraph(info):
 Actors = []
 Movies = []
 
+kantTeller = 0
+noder = 0  # skuespillere
+
 
 def lesFil(fil):
     with open(fil, 'r') as f:
         for inp in f:
             deler = inp.strip().split("\t")
+            global noder
 
             # Hvis det er actor
             if deler[0][0] == "n":
                 nyActor = AcMo.Actor(str(deler[0]), str(deler[1]), (deler[2:]))
                 Actors.append(nyActor)
+                noder += 1
             else:
                 nyMovie = AcMo.Movies(
                     str(deler[0]), str(deler[1]), str(deler[2]))
                 Movies.append(nyMovie)
 
 
-lesFil('marvel_actors_liten.tsv')
-lesFil('marvel_movies_liten.tsv')
+lesFil('marvel_actors.tsv')
+lesFil('marvel_movies.tsv')
 
 # Funker til hit!
 
@@ -75,6 +85,7 @@ lesFil('marvel_movies_liten.tsv')
 
 
 def sammeFil(movies, actors):
+    global kantTeller
     kanter = []
 
     for i in range(len(actors)):
@@ -87,8 +98,9 @@ def sammeFil(movies, actors):
                 kant = []
                 # Hvis den ikke er tom:
                 if tt in actors[teller].ttId and teller != i:
-                    kant.append(actors[i].Navn)
-                    kant.append(actors[teller].Navn)
+                    if kant.append(actors[teller].Navn) != kant.append(actors[i].Navn):
+                        kant.append(actors[i].Navn)
+                        kant.append(actors[teller].Navn)
                     # Legge til vekten
                     # Da lages en kant
                     if kanter:
@@ -105,15 +117,25 @@ def sammeFil(movies, actors):
                                     break
                         if not duplikat and len(kant) == 3:
                             kanter.append(kant)
+                            kantTeller += 1
                     if len(kanter) < 1:
                         for movie in movies:
                             if movie.ttID == tt:
                                 kant.append(movie.Rating)
                                 kanter.append(kant)
+                                kantTeller += 1
                                 break
             teller += 1
     return kanter
 
+
 kanter = sammeFil(Movies, Actors)
 
+print(kanter)
+
 G = buildgraph(kanter)
+
+drawgraph(G)
+
+print("kantteller:", kantTeller)
+print("skuespillere:", noder)
